@@ -212,7 +212,10 @@ get_best_score(const std::vector<score_t> &table, const size_t n_cells,
 // the dynamic vectorized optimization of -O3 might be too aggressive
 // and makes this function have strange behavior. Placing this pragma
 // here helps, and below we restore it to the `-O3` default.
+
+#ifdef __GNUC__
 #pragma GCC optimize("vect-cost-model=very-cheap")
+#endif 
 
 template<score_t (*scr_fun)(const uint8_t, const uint8_t), class T,
          class QueryConstItr>
