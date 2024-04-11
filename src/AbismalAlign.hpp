@@ -15,8 +15,10 @@
  * General Public License for more details.
  */
 
+
 #ifndef ABISMAL_ALIGN_HPP
 #define ABISMAL_ALIGN_HPP
+#define GCC_COMPILER (defined(__GNUC__) && !defined(__clang__) && !defined(__INTEL_COMPILER))
 
 #include <algorithm>
 #include <array>
@@ -212,7 +214,10 @@ get_best_score(const std::vector<score_t> &table, const size_t n_cells,
 // the dynamic vectorized optimization of -O3 might be too aggressive
 // and makes this function have strange behavior. Placing this pragma
 // here helps, and below we restore it to the `-O3` default.
+
+#if GCC_COMPILER
 #pragma GCC optimize("vect-cost-model=very-cheap")
+#endif
 
 template<score_t (*scr_fun)(const uint8_t, const uint8_t), class T,
          class QueryConstItr>
